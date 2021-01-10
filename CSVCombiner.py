@@ -1,25 +1,31 @@
 import pandas as pd
 
-# set the list variable  TODO: make this an input later
-list1name = 'list1.csv'
-list2name = 'list2.csv'
-list3name = 'list3.csv'
+list_names = []
+list_number = []
+combined = ''
 
-list1 = pd.read_csv(list1name)
-list2 = pd.read_csv(list2name)
-list3 = pd.read_csv(list3name)
+number_of_lists = int(input('Please enter number of CSVs to combine: '))
 
-print(list1, "\n")
-print(list2, '\n')
-print(list3, '\n')
+for i in range(number_of_lists):
+    # set the list variable  TODO: make this an input later
+    user_input = input('Please enter a CSV: ')
+    user_input = user_input.replace(",", '.')
+    list_names.append(user_input)
+    list_number.append(pd.read_csv(list_names[i]))
 
-combined = pd.merge(list1, list2)
-combined = pd.merge(combined, list3)
+    print(list_number[i], '\n')
 
-print(combined, '\n')
+    if i == 1:  # i is how many times the list is combined in this if statement
+        combined = pd.merge(list_number[i-1], list_number[i])
+        print('Combined:\n', combined)
+    elif i > 1:  # this should let it go for however many you have
+        combined = pd.merge(combined, list_number[i])
+        print('Combined:\n', combined)
 
-output = combined.sort_values(by='Login')
+user_sorted = input('What would you like your new list ordered by? ')
 
-print(output)
+output = combined.sort_values(by=user_sorted)
+
+print('FINAL OUTPUT =\n', output)
 
 
